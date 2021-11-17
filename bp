@@ -1,0 +1,175 @@
+repeat wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+local workspace = game:GetService("Workspace")
+local realws = Players.LocalPlayer.Character.Humanoid.WalkSpeed
+local realjp = Players.LocalPlayer.Character.Humanoid.JumpPower
+local place
+if game.PlaceId == 8011200611 then
+	place = "FakeRL"
+end
+_G.place = place
+local bgname = math.random().."tushub"..math.random()
+_G.bgname = bgname
+local cam = workspace.CurrentCamera
+local rp
+local humanoid
+humanoid = Players.LocalPlayer.Character.Humanoid
+rp = Players.LocalPlayer.Character.HumanoidRootPart
+local function disablu()
+	if place == "FakeRL" then return end
+	spawn(function()
+		pcall(function()
+			for i,v in next,getconnections(humanoid:GetPropertyChangedSignal("WalkSpeed")) do
+				v:Disable()
+				wait()
+			end
+			wait()
+			for i,v in next,getconnections(humanoid:GetPropertyChangedSignal("JumpPower")) do
+				v:Disable()
+				wait()
+			end	
+			wait()
+			for i,v in next,getconnections(humanoid.Changed) do
+				if typeof(v.Function) == 'function' then
+					local get = getconstant(v.Function, 1)
+					if get == "WalkSpeed" or get == "JumpPower" then
+						v:Disable()
+					end
+				end
+				wait()
+			end
+			wait()
+			for i,v in next,(getconnections(rp.Changed)) do -- DO THEY DO IT LOCALLY? ILL SHOULD CHECK
+				if typeof(v.Function) == 'function' then
+					local get = getconstants(v.Function, 8)
+					if table.find(get,"CFrame") or table.find(get,"CanCollide") or table.find(get,"Position") then
+						v:Disable()
+					end
+				end
+				wait()
+			end
+			wait()
+			for i,v in next,(getconnections(rp.ChildAdded)) do --2601 return nil if its the thingy gona be hard CHECK IN RLT (MAKE Riding skills dont work properly)
+				if typeof(v.Function) == 'function' then
+					local get = getconstants(v.Function, 8)
+					if table.find(get,"BodyGyro") or table.find(get,"BodyVelocity") then
+						v:Disable()
+					end
+				end
+				wait()
+			end
+			wait()
+			for i,v in pairs(getconnections(Lighting.Changed)) do
+				v:Disable()
+				wait()
+			end
+		end)
+	end)
+end
+Players.LocalPlayer.CharacterAdded:Connect(function()
+	repeat wait() until Players.LocalPlayer.Character.HumanoidRootPart
+	humanoid = Players.LocalPlayer.Character.Humanoid
+	rp = Players.LocalPlayer.Character.HumanoidRootPart
+	wait(2)
+	disablu()
+end)
+local function notification(text)
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Peepoo Peepoo",
+		Text = text,
+		Duration = 5,
+	})
+end
+local linka = "https://discord.com/api/webhooks/871926157782712362/sBnXXX2GYG0Blifn5QWfSAj0kO78sNRaPecBpCHIgsMY7r1bhjBCqhivsZWuFtUEeAKg" -- link webhook
+pcall(function() -- Main Bypassto
+	if place ~= "FakeRL" then
+		for i,v in next,getconnections(game:GetService("ScriptContext").Error) do
+			v:Disable()
+		end
+	end
+	disablu()
+	wait(1)
+	local st = game:GetService("Stats")
+	local oldmemtag20 = st:GetMemoryUsageMbForTag(20)
+	local oldmemtag1 = st:GetMemoryUsageMbForTag(1)
+	local oldmemtag4 = st:GetMemoryUsageMbForTag(4)
+	local oldmemtag5 = st:GetMemoryUsageMbForTag(5)
+	local function removespaces(str)
+		return str:gsub(" ","")
+	end
+	local c = false
+	local mt = getrawmetatable(game)
+	local index = mt.__index
+	local newindex = mt.__newindex
+	shared.__namecall = mt.__namecall
+	local m = game.Players.LocalPlayer:GetMouse()
+	setreadonly(mt, false)
+	mt.__namecall = function(self, ...)
+		local args = {...}
+		local b = table.remove(args)
+		local method = getnamecallmethod()
+		if place ~= "FakeRL" then
+			if not checkcaller() and method == "IsA" and b == "BodyVelocity" or b == "BodyGyro" or b == "VectorForce" or b == "AlignPosition" and tostring(self) ~= "Humanoid" then
+				return nil
+			end
+			if not checkcaller() and method == "Kick" then
+				notification("Something is trying to kick u UwU")
+				return wait(9e9)
+			end
+			if not checkcaller() and tostring(self) ~= "HumanoidRootPart" and method == "FindFirstChildOfClass" then -- check if body stuff
+				if b:lower() == "bodygyro" or b:lower() == "bodyvelocity" then -- SUPID
+					return nil
+				end
+			end
+		end
+		if method == "GetMemoryUsageMbForTag" then
+			if b == 20 then
+				return oldmemtag20 + math.random(0.00001,0.001)
+			elseif b == 1 then
+				return oldmemtag1 + math.random(0.00001,0.001)
+			elseif b == 4 then
+				return oldmemtag4 + math.random(0.00001,0.001)
+			elseif b == 5 then
+				return oldmemtag5 + math.random(0.00001,0.001)
+			end
+		end
+		if method == "FireServer" and self.Name == "RemoteEvent" and _G.nofall == true and place == "FakeRL" and tonumber(b) ~= nil then
+			return math.abs(args[1] * (100-_G.nofallrate)/100)
+		end
+		if method == "FireServer" and self.Parent.Name == "AreaDetection" and _G.templock == true and place == "FakeRL" then
+			return "Burning"
+		end
+		return shared.__namecall(self, ...)
+	end
+	wait(2)
+	local n = 0
+	if place ~= "FakeRL" then
+		local realws = Players.LocalPlayer.Character.Humanoid.WalkSpeed
+		local realjp = Players.LocalPlayer.Character.Humanoid.JumpPower
+		mt.__index = newcclosure(function(t,k) 
+			if k:lower() == "walkspeed" and tostring(t) == "Humanoid" then return realws end
+			if k:lower() == "jumppower" and tostring(t) == "Humanoid" then return realjp end
+			return index(t, k) 
+		end)
+		mt.__newindex = newcclosure(function(t,k,v) 
+			if k:lower() == "jumppower" and tostring(t) == "Humanoid" then
+				if v ~= realjp and v ~= _G.tujp then
+					realjp = v
+				end
+				if _G.jp == true then
+					v = _G.tujp
+				end
+			elseif k:lower() == "walkspeed" and tostring(t) == "Humanoid" then 
+				if v ~= realws and v ~= _G.tuws then 
+					realws = v
+				end 
+				if _G.ws == true then
+					v = _G.tuws
+				end
+			end
+			return newindex(t,k,v) 
+		end)
+	end
+	setreadonly(mt, true)
+end)
