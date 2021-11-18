@@ -135,9 +135,9 @@ pcall(function() -- Main Bypassto
 			end
 		end
 		if method == "FireServer" and self.Name == "RemoteEvent" and _G.nofall == true and place == "FakeRL" and tonumber(b) ~= nil then
-			return math.abs(args[1] * (100-_G.nofallrate)/100)
+			return math.abs(b * (100-_G.nofallrate)/100) or 1
 		end
-		if method == "FireServer" and self.Parent.Name == "AreaDetection" and _G.templock == true and place == "FakeRL" then
+		if method == "FireServer" and self.Name == "GetTemp" and _G.templock == true and place == "FakeRL" then
 			return "Burning"
 		end
 		return shared.__namecall(self, ...)
