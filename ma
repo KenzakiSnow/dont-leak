@@ -38,6 +38,9 @@ pcall(function()
 	local humanoid
 	humanoid = Players.LocalPlayer.Character.Humanoid
 	rp = Players.LocalPlayer.Character.HumanoidRootPart
+	local function removespaces(str)
+		return str:gsub(" ","")
+	end
 	local function notification(text)
 		game.StarterGui:SetCore("SendNotification", {
 			Title = "Peepoo Peepoo",
@@ -235,7 +238,7 @@ pcall(function()
 			section63:addToggle("Toggle", false, function(value)
 				_G.templock = value
 				if value == true then
-					Players.LocalPlayer.PlayerGui.Main.AreaDetection.GetTemp:FireServer("Burning")
+					Players.LocalPlayer.PlayerGui.AreaGui.AreaClient.GetTemp:FireServer("Burning")
 				end
 			end)
 		end
@@ -411,6 +414,7 @@ pcall(function()
 	local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 	request(abcdef)
 	if place == "FakeRL" then
+		notification("tui moi update them temp lock voi spectate giong elym nha hihi")
 		wait() -- TOO MANY STACKS JUST WAIT KID
 		pcall(function()
 			local guiname = "LeaderboardGui"
@@ -427,6 +431,11 @@ pcall(function()
 				v.MouseEnter:connect(function()
 					wait()
 					target = v.Text
+					if string.match(target,"#") then
+						target = target:sub(4)
+						local str = removespaces(target)
+						target = str
+					end
 				end)
 				v.MouseLeave:connect(function()
 					target = nil
