@@ -672,7 +672,7 @@ pcall(function()
 				end
 			end
 			for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
-				if v:IsA("Folder") and v.Name == "Folder" and v ~= ingfold then
+				if v:IsA("Folder") and v.Name == "Folder_" and v ~= ingfold then
 					v.ChildAdded:Connect(function(b)
 						wait()
 						for o,c in pairs(b:GetChildren()) do
@@ -699,8 +699,9 @@ pcall(function()
 							for o,c in pairs(v:GetChildren()) do
 								if c:FindFirstChildOfClass("ClickDetector") then
 									local mag = (c.Position - Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-									if c:FindFirstChildOfClass("ClickDetector").MaxActivationDistance > mag then
+									if c:FindFirstChildOfClass("ClickDetector").MaxActivationDistance > mag + 5 then
 										fireclickdetector(c:FindFirstChildOfClass("ClickDetector"))
+										wait(0.15)
 									end
 								end
 							end
@@ -710,8 +711,9 @@ pcall(function()
 						for i,v in pairs(ingfold:GetChildren()) do
 							if v.Transparency ~= 1 then
 								local mag = (v.Position - Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-								if v:FindFirstChildOfClass("ClickDetector").MaxActivationDistance > mag then
+								if v:FindFirstChildOfClass("ClickDetector").MaxActivationDistance > mag + 5 then
 									fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
+									wait(0.15)
 								end
 							end
 						end
