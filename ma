@@ -672,7 +672,7 @@ pcall(function()
 				end
 			end
 			for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
-				if v:IsA("Folder") and v.Name == "Folder_" and v ~= ingfold then
+				if v:IsA("Folder") and v.Name == "Folder" and v ~= ingfold then
 					v.ChildAdded:Connect(function(b)
 						wait()
 						for o,c in pairs(b:GetChildren()) do
