@@ -5,7 +5,7 @@ local workspace = game:GetService("Workspace")
 local realws = Players.LocalPlayer.Character.Humanoid.WalkSpeed
 local realjp = Players.LocalPlayer.Character.Humanoid.JumpPower
 local place
-if game.PlaceId == 8129897445 or game.PlaceId == 8063694405 then
+if game.PlaceId == 8151458037 or game.PlaceId == 8063694405 then
 	place = "FakeRL"
 end
 _G.place = place
