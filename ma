@@ -671,24 +671,24 @@ pcall(function()
 					end
 				end
 			end
-			for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
-				if v:IsA("Folder") and v.Name == "Folder" and v ~= ingfold then
-					v.ChildAdded:Connect(function(b)
-						wait()
-						for o,c in pairs(b:GetChildren()) do
-							if c:FindFirstChildOfClass("ClickDetector") then
-								table.insert(Trinkets,b)
-								break
-							end
-						end
-					end)
-					v.ChildRemoved:Connect(function(b)
-						if table.find(Trinkets,b) then
-							table.remove(Trinkets,b)
-						end
-					end)
+			game:GetService("Workspace").ChildAdded:Connect(function(b)
+				wait()
+				if b:FindFirstChildOfClass("ClickDetector") then
+					table.insert(Trinkets,b)
+					return
 				end
-			end
+				for o,c in pairs(b:GetChildren()) do
+					if c:FindFirstChildOfClass("ClickDetector") then
+						table.insert(Trinkets,b)
+						break
+					end
+				end
+			end)
+			game:GetService("Workspace").ChildRemoved:Connect(function(b)
+				if table.find(Trinkets,b) then
+					table.remove(Trinkets,b)
+				end
+			end)
 			spawn(function()
 				-- Auto pickup
 				local tik = tick()
@@ -696,12 +696,20 @@ pcall(function()
 				RunService.RenderStepped:Connect(function()
 					if _G.autotrinket == true then
 						for i,v in pairs(Trinkets) do
+							if v:FindFirstChildOfClass("ClickDetector") then
+								local mag = (v.Position - Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+								if v:FindFirstChildOfClass("ClickDetector").MaxActivationDistance > mag + 5 then
+									fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
+									wait()
+								end
+								return
+							end
 							for o,c in pairs(v:GetChildren()) do
 								if c:FindFirstChildOfClass("ClickDetector") then
 									local mag = (c.Position - Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 									if c:FindFirstChildOfClass("ClickDetector").MaxActivationDistance > mag + 5 then
 										fireclickdetector(c:FindFirstChildOfClass("ClickDetector"))
-										wait(0.15)
+										wait()
 									end
 								end
 							end
