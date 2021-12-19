@@ -5,7 +5,7 @@ local workspace = game:GetService("Workspace")
 local realws = Players.LocalPlayer.Character.Humanoid.WalkSpeed
 local realjp = Players.LocalPlayer.Character.Humanoid.JumpPower
 local place
-if game.PlaceId == 8151458037 or game.PlaceId == 8063694405 then
+if game.PlaceId == 8151458037 then
 	place = "FakeRL"
 end
 _G.place = place
@@ -30,14 +30,16 @@ local function disablu()
 				wait()
 			end	
 			wait()
+			local humanoid = game:GetService("Players").LocalPlayer.Character.Humanoid
 			for i,v in next,getconnections(humanoid.Changed) do
 				if typeof(v.Function) == 'function' then
-					local get = getconstant(v.Function, 1)
-					if get == "WalkSpeed" or get == "JumpPower" then
-						v:Disable()
+					local get = getconstanst(v.Function, 10)
+					for o,c in pairs(get) do
+						if c == "WalkSpeed" or c == "JumpPower" then
+							v:Disable()
+						end
 					end
 				end
-				wait()
 			end
 			wait()
 			for i,v in next,(getconnections(rp.Changed)) do -- DO THEY DO IT LOCALLY? ILL SHOULD CHECK
@@ -134,7 +136,7 @@ pcall(function() -- Main Bypassto
 				return oldmemtag5 + math.random(0.00001,0.001)
 			end
 		end
-		if method == "FireServer" and self.Name == "RemoteEvent" and _G.nofall == true and place == "FakeRL" and tonumber(b) ~= nil then
+		if method == "InvokeServer" and self.Name == "RemoteFunction" and _G.nofall == true and place == "FakeRL" and tonumber(b) ~= nil then
 			return math.abs(b * (100-_G.nofallrate)/100) or 1
 		end
 		if method == "FireServer" and self.Name == "GetTemp" and _G.templock == true and place == "FakeRL" then
